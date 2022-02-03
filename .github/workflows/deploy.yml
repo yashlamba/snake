@@ -16,6 +16,7 @@ jobs:
             - name: Git setup and update
               run: |
                   git config user.name "GitHub Action" && git config user.email "github-action@github.com"
+                  git stash
                   git checkout gh-pages
                   \cp -r build/web/* .
                   git add .
