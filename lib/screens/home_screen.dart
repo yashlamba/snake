@@ -53,17 +53,42 @@ class _HomeScreenState extends State<HomeScreen> {
     // final game_utils = Utils();
     Utils.init(context);
     // snake.utils = game_utils;
-    return RawKeyboardListener(
-      focusNode: FocusNode(),
-      autofocus: true,
-      onKey: _keyHandler,
-      child: Center(
-        child: Container(
-          height: Utils.gridSize,
-          width: Utils.gridSize,
-          color: Colors.grey[200],
-          child: Stack(
-            children: snake.toWidgets() + [snake.food.toPositioned(Colors.red)],
+    return Center(
+      child: RawKeyboardListener(
+        focusNode: FocusNode(),
+        autofocus: true,
+        onKey: _keyHandler,
+        child: GestureDetector(
+          onHorizontalDragEnd: (details) {
+            if (details.primaryVelocity! > 0) {
+              if (snake.direction != "LEFT") {
+                snake.direction = "RIGHT";
+              }
+            } else if (details.primaryVelocity! < 0) {
+              if (snake.direction != "RIGHT") {
+                snake.direction = "LEFT";
+              }
+            }
+          },
+          onVerticalDragEnd: (details) {
+            if (details.primaryVelocity! > 0) {
+              if (snake.direction != "UP") {
+                snake.direction = "DOWN";
+              }
+            } else if (details.primaryVelocity! < 0) {
+              if (snake.direction != "DOWN") {
+                snake.direction = "UP";
+              }
+            }
+          },
+          child: Container(
+            height: Utils.gridSize,
+            width: Utils.gridSize,
+            color: Colors.grey[200],
+            child: Stack(
+              children:
+                  snake.toWidgets() + [snake.food.toPositioned(Colors.red)],
+            ),
           ),
         ),
       ),
