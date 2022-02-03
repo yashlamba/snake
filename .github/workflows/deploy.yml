@@ -1,0 +1,23 @@
+name: Build Snake Game
+on:
+    push:
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - uses: subosito/flutter-action@v1
+              with:
+                  channel: "stable"
+            - run: flutter pub get
+            - run: flutter build web --release --base-href /snake/
+            - name: Git setup and update
+              run: |
+                  git config user.name "GitHub Action" && git config user.email "github-action@github.com"
+                  git checkout gh-pages
+                  \cp -r build/web/* .
+                  git add .
+                  git commit -m "Deployed"
+                  git push origin gh-pages
