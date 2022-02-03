@@ -83,14 +83,18 @@ class Snake {
   updateFood() {
     var rng = Random();
     var newFood;
+    bool flag;
     while (true) {
       newFood = XY(rng.nextInt(50), rng.nextInt(50));
+      flag = true;
       for (XY element in snake) {
         if (newFood.isEqual(element)) {
-          continue;
+          flag = false;
         }
       }
-      break;
+      if (flag) {
+        break;
+      }
     }
     food = newFood;
   }
